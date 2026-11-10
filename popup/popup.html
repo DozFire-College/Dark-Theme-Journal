@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Тёмный журнал</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header class="head">
+    <img src="../icons/icon48.png" alt="" class="logo">
+    <div>
+      <h1>Тёмный журнал</h1>
+      <p class="sub" id="status">Тема включена</p>
+    </div>
+  </header>
+
+  <label class="row main-toggle">
+    <span>
+      <strong>Тёмная тема</strong>
+      <small>для journal.top-academy.ru</small>
+    </span>
+    <input type="checkbox" id="enabled" class="switch">
+  </label>
+
+  <section class="block" id="paletteBlock">
+    <h2>Палитра</h2>
+    <div class="palettes" role="radiogroup" aria-label="Палитра">
+      <button class="pal" data-palette="graphite" role="radio">
+        <span class="swatch" style="--a:#13171d;--b:#1b2129;--c:#3fc1d4"></span>
+        <span class="name">Графит</span>
+      </button>
+      <button class="pal" data-palette="midnight" role="radio">
+        <span class="swatch" style="--a:#0d1422;--b:#142033;--c:#5cb8ff"></span>
+        <span class="name">Полночь</span>
+      </button>
+      <button class="pal" data-palette="amoled" role="radio">
+        <span class="swatch" style="--a:#000000;--b:#0c0d0f;--c:#45d0c2"></span>
+        <span class="name">AMOLED</span>
+      </button>
+    </div>
+  </section>
+
+  <label class="row" id="smartRow">
+    <span>
+      <strong>Умная подстройка</strong>
+      <small>Перекрашивает светлые блоки на любых страницах журнала</small>
+    </span>
+    <input type="checkbox" id="smart" class="switch">
+  </label>
+
+  <footer class="foot">
+    <span><kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>D</kbd> — вкл/выкл</span>
+    <a href="https://journal.top-academy.ru/" target="_blank" rel="noopener">Открыть журнал</a>
+  </footer>
+
+  <script src="popup.js"></script>
+</body>
+</html>

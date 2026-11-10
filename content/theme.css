@@ -1,0 +1,401 @@
+/* =====================================================================
+   Тёмный журнал — тёмная тема для journal.top-academy.ru
+   Все правила работают, только пока у <html> нет класса .tj-off
+   ===================================================================== */
+
+/* ---------- Палитры ---------- */
+html {
+  --tj-bg: #13171d;
+  --tj-surface: #1b2129;
+  --tj-raised: #232a34;
+  --tj-raised-2: #2b3440;
+  --tj-border: #313a47;
+  --tj-text: #e6eaf0;
+  --tj-text-2: #c4cbd6;
+  --tj-muted: #8d98a9;
+  --tj-accent: #3fc1d4;
+  --tj-accent-strong: #1b8ea3;
+  --tj-accent-ink: #0d1a1e;
+  --tj-danger: #ff5f7e;
+  --tj-success: #3ad8c9;
+  --tj-warning: #f3d27c;
+  --tj-violet: #b5a3ff;
+  --tj-link: #6fd0e0;
+  --tj-shadow: 0 6px 18px rgba(0, 0, 0, .35);
+}
+
+html[data-tj-palette="midnight"] {
+  --tj-bg: #0d1422;
+  --tj-surface: #142033;
+  --tj-raised: #1b2a41;
+  --tj-raised-2: #23344f;
+  --tj-border: #2a3b56;
+  --tj-text: #e3e9f4;
+  --tj-text-2: #bfcade;
+  --tj-muted: #8798b4;
+  --tj-accent: #5cb8ff;
+  --tj-accent-strong: #2a78c4;
+  --tj-accent-ink: #081220;
+  --tj-link: #86c9ff;
+}
+
+html[data-tj-palette="amoled"] {
+  --tj-bg: #000000;
+  --tj-surface: #0c0d0f;
+  --tj-raised: #16181b;
+  --tj-raised-2: #1f2226;
+  --tj-border: #2a2d32;
+  --tj-text: #e8e8e8;
+  --tj-text-2: #c2c2c2;
+  --tj-muted: #8c8c8c;
+  --tj-accent: #45d0c2;
+  --tj-accent-strong: #1f9488;
+  --tj-accent-ink: #001412;
+  --tj-link: #74ddd2;
+  --tj-shadow: 0 0 0 1px #1f2226;
+}
+
+/* ---------- База ---------- */
+html:not(.tj-off) {
+  color-scheme: dark;
+  background-color: var(--tj-bg) !important;
+}
+
+html:not(.tj-off) body,
+html:not(.tj-off) .wrap,
+html:not(.tj-off) .wrapper,
+html:not(.tj-off) .content,
+html:not(.tj-off) #cover {
+  background-color: var(--tj-bg) !important;
+  color: var(--tj-text);
+}
+
+html:not(.tj-off) ::selection {
+  background: var(--tj-accent-strong);
+  color: #fff;
+}
+
+html:not(.tj-off) a { color: var(--tj-link); }
+html:not(.tj-off) hr { border-color: var(--tj-border) !important; }
+
+html:not(.tj-off) h1, html:not(.tj-off) h2, html:not(.tj-off) h3,
+html:not(.tj-off) h4, html:not(.tj-off) h5, html:not(.tj-off) h6 {
+  color: var(--tj-text);
+}
+
+/* Скроллбары */
+html:not(.tj-off) ::-webkit-scrollbar { background-color: var(--tj-bg) !important; }
+html:not(.tj-off) ::-webkit-scrollbar-thumb {
+  background-color: var(--tj-raised-2) !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+  border-radius: 6px;
+}
+html:not(.tj-off) ::-webkit-scrollbar-thumb:hover { background-color: var(--tj-border) !important; }
+html:not(.tj-off) * { scrollbar-color: var(--tj-raised-2) var(--tj-bg); }
+
+/* ---------- Боковое меню ---------- */
+html:not(.tj-off) .sidebar-content {
+  background: var(--tj-surface) !important;
+  border-right: 1px solid var(--tj-border);
+}
+html:not(.tj-off) .sidebar-content ul li a { color: var(--tj-muted) !important; }
+html:not(.tj-off) .sidebar-content ul li a:before { background-color: var(--tj-muted) !important; }
+html:not(.tj-off) .sidebar-content ul li a:hover,
+html:not(.tj-off) .sidebar-content ul li .active { color: var(--tj-text) !important; }
+html:not(.tj-off) .sidebar-content ul li .active::before { background-color: var(--tj-accent) !important; }
+html:not(.tj-off) .sidebar-content ul li .active .side-text { border-bottom-color: var(--tj-accent) !important; }
+html:not(.tj-off) .sidebar-content ul li a .close-hover {
+  background: var(--tj-raised-2) !important;
+  color: var(--tj-text) !important;
+  box-shadow: var(--tj-shadow);
+}
+html:not(.tj-off) .sidebar-content ul li a .badge-counter {
+  border-color: var(--tj-surface) !important;
+}
+html:not(.tj-off) .sidebar-content .shop-nav-link { border-color: var(--tj-border) !important; }
+html:not(.tj-off) .sidebar-content .shop-nav-link a { color: var(--tj-text) !important; }
+
+/* ---------- Верхняя панель ---------- */
+html:not(.tj-off) .top-panel,
+html:not(.tj-off) nav.navbar.top-panel,
+html:not(.tj-off) .justify-content-between.top-panel {
+  background: var(--tj-surface) !important;
+  border-bottom: 1px solid var(--tj-border);
+  color: var(--tj-text);
+}
+html:not(.tj-off) .wrap-counts {
+  background: var(--tj-raised) !important;
+  color: var(--tj-text) !important;
+}
+html:not(.tj-off) .top-panel__coins,
+html:not(.tj-off) .top-panel__coins *,
+html:not(.tj-off) .top-panel__profile-name,
+html:not(.tj-off) .top-panel__profile-info,
+html:not(.tj-off) .top-panel__profile-info *,
+html:not(.tj-off) .full-name-block,
+html:not(.tj-off) .top-panel__contacts {
+  color: var(--tj-text) !important;
+}
+html:not(.tj-off) .top-panel__avatar { box-shadow: 0 0 0 2px var(--tj-border) !important; }
+html:not(.tj-off) .select-student { border-color: var(--tj-border) !important; color: var(--tj-muted) !important; }
+html:not(.tj-off) .select-student:hover { border-color: var(--tj-text) !important; color: var(--tj-text) !important; }
+html:not(.tj-off) .right-block .align-self-end .img-logout-block,
+html:not(.tj-off) .panel-tooltip .logout-link > div { background-color: var(--tj-muted) !important; }
+html:not(.tj-off) .right-block .align-self-end:hover .img-logout-block { background-color: var(--tj-text) !important; }
+html:not(.tj-off) .header-contacts__icon:before { background-color: var(--tj-text) !important; }
+html:not(.tj-off) .stories__item { border-color: var(--tj-border) !important; }
+
+/* Всплывашки с монетами / подсказки */
+html:not(.tj-off) .counts-tooltip,
+html:not(.tj-off) .counts-tooltip.star,
+html:not(.tj-off) .counts-tooltip .tooltip-inner {
+  background: var(--tj-raised) !important;
+  background-color: var(--tj-raised) !important;
+  color: var(--tj-text) !important;
+}
+html:not(.tj-off) .counts-tooltip { border-top-color: var(--tj-accent) !important; box-shadow: var(--tj-shadow) !important; }
+
+/* Выбор филиала / ng-select в шапке */
+html:not(.tj-off) .ng-select .ng-select-container,
+html:not(.tj-off) .ng-dropdown-panel,
+html:not(.tj-off) .ng-select-bottom {
+  background: var(--tj-raised) !important;
+  background-color: var(--tj-raised) !important;
+  color: var(--tj-text) !important;
+  border-color: var(--tj-border) !important;
+}
+html:not(.tj-off) .ng-dropdown-panel .ng-option,
+html:not(.tj-off) .ng-dropdown-panel .ng-optgroup { background: transparent !important; color: var(--tj-text) !important; }
+html:not(.tj-off) .ng-dropdown-panel .ng-option.ng-option-marked,
+html:not(.tj-off) .ng-dropdown-panel .ng-option:hover { background: var(--tj-raised-2) !important; }
+html:not(.tj-off) .ng-select .ng-value,
+html:not(.tj-off) .ng-select .ng-value-label,
+html:not(.tj-off) .ng-select input { color: var(--tj-text) !important; }
+html:not(.tj-off) .ng-select .ng-arrow { border-top-color: var(--tj-muted) !important; }
+
+/* ---------- Главная: карточки ---------- */
+html:not(.tj-off) .homepage-wrapper .inner,
+html:not(.tj-off) .inner.with-bg {
+  background-color: var(--tj-surface) !important;
+  color: var(--tj-text-2) !important;
+  box-shadow: var(--tj-shadow) !important;
+  border: 1px solid var(--tj-border);
+}
+html:not(.tj-off) .homepage-wrapper .header-title-block {
+  color: var(--tj-text) !important;
+  border-bottom-color: var(--tj-border) !important;
+}
+html:not(.tj-off) .homepage-wrapper .header-title-block .title,
+html:not(.tj-off) .homepage-wrapper .header-title-block h3 { color: var(--tj-text) !important; }
+html:not(.tj-off) .homepage-wrapper .header-title-block .group-flow span { color: var(--tj-muted) !important; }
+html:not(.tj-off) .homepage-wrapper .header-title-block .group-flow .active {
+  color: var(--tj-text) !important;
+  border-bottom-color: var(--tj-accent) !important;
+}
+html:not(.tj-off) .homepage-wrapper .header-title-block .more-info { color: var(--tj-accent) !important; }
+html:not(.tj-off) .homepage-wrapper .header-title-block .more-info .go-to-details { border-bottom-color: var(--tj-accent) !important; }
+
+/* крупные цифры */
+html:not(.tj-off) .middle-count,
+html:not(.tj-off) .all-count,
+html:not(.tj-off) .rating-position,
+html:not(.tj-off) .count-holder.items .done {
+  color: var(--tj-accent) !important;
+}
+html:not(.tj-off) .count-holder.items {
+  background: var(--tj-raised) !important;
+  color: var(--tj-text-2) !important;
+}
+html:not(.tj-off) .count-holder.items .open { color: var(--tj-violet) !important; }
+html:not(.tj-off) .count-holder.items .inspection { color: var(--tj-warning) !important; }
+html:not(.tj-off) .count-holder.items .lose,
+html:not(.tj-off) .diff-count .down,
+html:not(.tj-off) .progress-info-count .action,
+html:not(.tj-off) .week-diff .fall { color: var(--tj-danger) !important; }
+html:not(.tj-off) .diff-count .up,
+html:not(.tj-off) .birch,
+html:not(.tj-off) .rating-position .action,
+html:not(.tj-off) .library-newest { color: var(--tj-success) !important; }
+
+/* Награды и таблица лидеров */
+html:not(.tj-off) .homepage-wrapper ul li .history-date,
+html:not(.tj-off) .history-date { color: var(--tj-muted) !important; }
+html:not(.tj-off) .homepage-wrapper ul li .main-name { color: var(--tj-accent) !important; }
+html:not(.tj-off) .name-achive,
+html:not(.tj-off) .point { color: var(--tj-text-2) !important; }
+
+/* блок «Получай больше наград» */
+html:not(.tj-off) .homepage-wrapper .rating-blocks .ratings .inner.rating-details {
+  background-color: var(--tj-accent-strong) !important;
+  color: #fff !important;
+  border-color: transparent;
+}
+html:not(.tj-off) .rating-details .part-details { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .55) !important; }
+html:not(.tj-off) .rating-details * { color: #fff !important; }
+
+html:not(.tj-off) .part-payments .pay-image,
+html:not(.tj-off) .part-payments .card-item { background: var(--tj-accent-strong) !important; }
+
+html:not(.tj-off) .period-holder {
+  background: var(--tj-raised) !important;
+  color: var(--tj-muted) !important;
+}
+html:not(.tj-off) .progress-info-position { color: var(--tj-success) !important; }
+
+/* ---------- Графики (d3) ---------- */
+html:not(.tj-off) svg .axis .tick text,
+html:not(.tj-off) .svg-wrap-attendance svg .axis .tick text,
+html:not(.tj-off) .svg-wrap-progress svg .axis .tick text { fill: var(--tj-muted) !important; }
+html:not(.tj-off) .svg-wrap-attendance svg .axis .tick .grid-line,
+html:not(.tj-off) .svg-wrap-progress svg .axis .tick .grid-line { stroke: var(--tj-border) !important; stroke-opacity: 1 !important; }
+html:not(.tj-off) svg .axis .domain { stroke: var(--tj-border) !important; }
+html:not(.tj-off) .svg-wrap-progress svg .line,
+html:not(.tj-off) .svg-wrap-progress svg .focus circle { stroke: var(--tj-accent) !important; }
+html:not(.tj-off) .svg-wrap-attendance svg .line,
+html:not(.tj-off) .svg-wrap-attendance svg .focus circle { stroke: var(--tj-danger) !important; }
+html:not(.tj-off) .svg-wrap-attendance svg .focus circle,
+html:not(.tj-off) .svg-wrap-progress svg .focus circle { fill: var(--tj-surface) !important; }
+
+html:not(.tj-off) .tooltip-achieve,
+html:not(.tj-off) .svg-wrap-attendance .tooltip,
+html:not(.tj-off) .svg-wrap-progress .tooltip {
+  background-color: var(--tj-raised-2) !important;
+  color: var(--tj-text) !important;
+  box-shadow: var(--tj-shadow) !important;
+}
+
+/* ---------- Экзамены ---------- */
+html:not(.tj-off) .exam-date { color: var(--tj-text) !important; }
+html:not(.tj-off) .exam-spec { color: var(--tj-text-2) !important; }
+
+/* ---------- Bootstrap и общие элементы (для остальных страниц) ---------- */
+html:not(.tj-off) .card,
+html:not(.tj-off) .list-group-item,
+html:not(.tj-off) .modal-content,
+html:not(.tj-off) .popover,
+html:not(.tj-off) .dropdown-menu,
+html:not(.tj-off) .bg-white,
+html:not(.tj-off) .bg-light,
+html:not(.tj-off) .jumbotron,
+html:not(.tj-off) .toast {
+  background-color: var(--tj-surface) !important;
+  color: var(--tj-text) !important;
+  border-color: var(--tj-border) !important;
+}
+html:not(.tj-off) .card-header,
+html:not(.tj-off) .card-footer,
+html:not(.tj-off) .modal-header,
+html:not(.tj-off) .modal-footer {
+  background-color: transparent !important;
+  border-color: var(--tj-border) !important;
+  color: var(--tj-text) !important;
+}
+html:not(.tj-off) .modal-footer span { color: var(--tj-muted) !important; }
+html:not(.tj-off) .modal-backdrop { background-color: #000 !important; }
+html:not(.tj-off) .close { color: var(--tj-text) !important; text-shadow: none !important; }
+html:not(.tj-off) .dropdown-item { color: var(--tj-text) !important; }
+html:not(.tj-off) .dropdown-item:hover,
+html:not(.tj-off) .dropdown-item:focus,
+html:not(.tj-off) .dropdown-menu .selected-leng { background-color: var(--tj-raised) !important; color: var(--tj-text) !important; }
+html:not(.tj-off) .dropdown-divider { border-color: var(--tj-border) !important; }
+
+html:not(.tj-off) .text-dark,
+html:not(.tj-off) .text-body { color: var(--tj-text) !important; }
+html:not(.tj-off) .text-muted,
+html:not(.tj-off) .text-secondary { color: var(--tj-muted) !important; }
+html:not(.tj-off) .border,
+html:not(.tj-off) .border-top,
+html:not(.tj-off) .border-bottom,
+html:not(.tj-off) .border-left,
+html:not(.tj-off) .border-right { border-color: var(--tj-border) !important; }
+
+/* Таблицы (расписание, оценки, ДЗ) */
+html:not(.tj-off) table { color: var(--tj-text-2); border-color: var(--tj-border) !important; }
+html:not(.tj-off) th,
+html:not(.tj-off) td { border-color: var(--tj-border) !important; }
+html:not(.tj-off) .table { color: var(--tj-text-2) !important; }
+html:not(.tj-off) .table thead th,
+html:not(.tj-off) thead th { color: var(--tj-text); }
+html:not(.tj-off) .table-striped tbody tr:nth-of-type(odd) { background-color: rgba(255, 255, 255, .03) !important; }
+html:not(.tj-off) .table-hover tbody tr:hover { background-color: var(--tj-raised) !important; color: var(--tj-text) !important; }
+
+/* Формы */
+html:not(.tj-off) input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="image"]),
+html:not(.tj-off) textarea,
+html:not(.tj-off) select,
+html:not(.tj-off) .form-control,
+html:not(.tj-off) .custom-select,
+html:not(.tj-off) .input-group-text {
+  background-color: var(--tj-raised) !important;
+  color: var(--tj-text) !important;
+  border-color: var(--tj-border) !important;
+}
+html:not(.tj-off) .form-control:focus,
+html:not(.tj-off) input:focus,
+html:not(.tj-off) textarea:focus {
+  border-color: var(--tj-accent) !important;
+  box-shadow: 0 0 0 .2rem color-mix(in srgb, var(--tj-accent) 25%, transparent) !important;
+}
+html:not(.tj-off) .form-control:disabled,
+html:not(.tj-off) .form-control[readonly] { background-color: var(--tj-surface) !important; color: var(--tj-muted) !important; }
+html:not(.tj-off) ::placeholder { color: var(--tj-muted) !important; opacity: 1; }
+
+/* Кнопки-«пустышки» */
+html:not(.tj-off) .btn-light,
+html:not(.tj-off) .btn-outline-secondary,
+html:not(.tj-off) .btn-outline-dark,
+html:not(.tj-off) .btn-default,
+html:not(.tj-off) .btn-white {
+  background-color: var(--tj-raised) !important;
+  color: var(--tj-text) !important;
+  border-color: var(--tj-border) !important;
+}
+html:not(.tj-off) .btn-light:hover,
+html:not(.tj-off) .btn-outline-secondary:hover,
+html:not(.tj-off) .btn-outline-dark:hover,
+html:not(.tj-off) .btn-default:hover { background-color: var(--tj-raised-2) !important; }
+
+/* Вкладки, пагинация, бейджи */
+html:not(.tj-off) .nav-tabs { border-color: var(--tj-border) !important; }
+html:not(.tj-off) .nav-tabs .nav-link.active,
+html:not(.tj-off) .nav-tabs .nav-item.show .nav-link {
+  background-color: var(--tj-surface) !important;
+  color: var(--tj-text) !important;
+  border-color: var(--tj-border) var(--tj-border) var(--tj-surface) !important;
+}
+html:not(.tj-off) .page-link { background-color: var(--tj-surface) !important; border-color: var(--tj-border) !important; color: var(--tj-link) !important; }
+html:not(.tj-off) .page-item.active .page-link { background-color: var(--tj-accent-strong) !important; color: #fff !important; }
+html:not(.tj-off) .page-item.disabled .page-link { color: var(--tj-muted) !important; }
+html:not(.tj-off) .badge-light { background-color: var(--tj-raised-2) !important; color: var(--tj-text) !important; }
+html:not(.tj-off) .progress { background-color: var(--tj-raised) !important; }
+
+/* Тосты (ngx-toastr) и подсказки */
+html:not(.tj-off) .toast-container .ngx-toastr { box-shadow: var(--tj-shadow) !important; }
+html:not(.tj-off) .tooltip-inner { background-color: var(--tj-raised-2) !important; color: var(--tj-text) !important; }
+
+/* Поле тегов */
+html:not(.tj-off) .app-tags-input-item {
+  background: var(--tj-raised) !important;
+  border-color: var(--tj-border) !important;
+  color: var(--tj-link) !important;
+}
+html:not(.tj-off) .app-tags-input-item.active { background: var(--tj-raised-2) !important; }
+
+/* Мобильная шапка */
+@media screen and (max-device-width: 825px) {
+  html:not(.tj-off) .justify-content-between { background: var(--tj-surface) !important; }
+}
+
+/* =====================================================================
+   Умная подстройка: эти атрибуты расставляет content.js на светлых
+   блоках, которых нет в правилах выше (другие страницы журнала).
+   ===================================================================== */
+html.tj-smart:not(.tj-off) [data-tj-bg="0"] { background-color: var(--tj-bg) !important; }
+html.tj-smart:not(.tj-off) [data-tj-bg="1"] { background-color: var(--tj-surface) !important; }
+html.tj-smart:not(.tj-off) [data-tj-bg="2"] { background-color: var(--tj-raised) !important; }
+html.tj-smart:not(.tj-off) [data-tj-bg="3"] { background-color: var(--tj-raised-2) !important; }
+html.tj-smart:not(.tj-off) [data-tj-bd] { border-color: var(--tj-border) !important; }
+html.tj-smart:not(.tj-off) [data-tj-fg="t"] { color: var(--tj-text) !important; }
+html.tj-smart:not(.tj-off) [data-tj-fg="s"] { color: var(--tj-text-2) !important; }
+html.tj-smart:not(.tj-off) [data-tj-fill] { fill: var(--tj-text-2) !important; }

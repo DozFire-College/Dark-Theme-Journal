@@ -1,0 +1,43 @@
+{
+  "manifest_version": 3,
+  "name": "Тёмный журнал",
+  "short_name": "Тёмный журнал",
+  "version": "1.0.0",
+  "description": "Тёмная тема для студенческого журнала journal.top-academy.ru: три палитры, умная подстройка и быстрое переключение.",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "permissions": ["storage"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "Тёмный журнал",
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png"
+    }
+  },
+  "commands": {
+    "toggle-theme": {
+      "suggested_key": {
+        "default": "Alt+Shift+D"
+      },
+      "description": "Включить / выключить тёмную тему"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://journal.top-academy.ru/*"],
+      "css": ["content/theme.css"],
+      "js": ["content/content.js"],
+      "run_at": "document_start",
+      "all_frames": false
+    }
+  ]
+}
