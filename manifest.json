@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Тёмный журнал",
   "short_name": "Тёмный журнал",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Тёмная тема для студенческого журнала journal.top-academy.ru: три палитры, умная подстройка и быстрое переключение.",
   "icons": {
     "16": "icons/icon16.png",
