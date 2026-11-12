@@ -2,7 +2,8 @@
  * Тёмный журнал — content script.
  * 1) Мгновенно (до отрисовки) применяет сохранённые настройки, чтобы не было белой вспышки.
  * 2) «Умная подстройка»: находит светлые блоки и тёмный текст, которых нет в theme.css
- *    (например, на страницах расписания, ДЗ, оплаты), и перекрашивает их под палитру.
+ *    (например, на страницах оплаты, тестов, магазина), и перекрашивает их под палитру,
+ *    а яркие цветные заливки делает темнее (красные — бордовыми).
  */
 (() => {
   'use strict';
@@ -193,8 +194,20 @@
             }
             myState = 'dark';
           }
+        } else if (!isThemeColor(bg) && ((hsl.c >= 0.15 && lum > 0.07) || lum > 0.38)) {
+          // яркая цветная заливка (кнопки, плашки, значки): тот же оттенок, но темнее;
+          // красный уходит в бордовый
+          el.setAttribute('data-tj-bg', token('bg', dimFill(hsl, bg.a)));
+          // рамка того же цвета, что и заливка (кнопки Bootstrap), темнеет вместе с ней
+          if (cs.borderTopWidth !== '0px') {
+            const bc = parseColor(cs.borderTopColor);
+            if (bc && bc.a >= 0.5 && bc.r === bg.r && bc.g === bg.g && bc.b === bg.b) {
+              el.setAttribute('data-tj-bd', token('bd', dimFill(hsl, bc.a)));
+            }
+          }
+          myState = 'dark';
         } else {
-          myState = lum > 0.38 ? 'light' : 'dark'; // насыщенные яркие кнопки остаются как есть
+          myState = lum > 0.38 ? 'light' : 'dark';
           if (myState === 'dark') myLevel = nearestLevel(lum, parentLevel);
         }
       }
@@ -220,7 +233,7 @@
         el.setAttribute('data-tj-fg', lum < 0.06 ? 't' : 's');
       } else {
         // цветной тёмный текст (ссылки, статусы) — тот же оттенок, но светлее
-        el.setAttribute('data-tj-fg', token('fg', `hsl(${hsl.h} ${Math.round(Math.max(hsl.s, 0.55) * 100)}% 68%)`));
+        el.setAttribute('data-tj-fg', token('fg', `hsl(${hsl.h} ${Math.round(Math.max(hsl.s, 0.55) * 100)}% ${isRed(hsl.h) ? 60 : 64}%)`));
       }
     }
 
@@ -259,10 +272,50 @@
     }
 
     function hexLum(v) {
+      const n = hexInt(v);
+      return n == null ? null : relLum({ r: n >> 16, g: (n >> 8) & 255, b: n & 255 });
+    }
+
+    function hexInt(v) {
       const m = (v || '').trim().match(/^#([0-9a-f]{6})$/i);
-      if (!m) return null;
-      const n = parseInt(m[1], 16);
-      return relLum({ r: n >> 16, g: (n >> 8) & 255, b: n & 255 });
+      return m ? parseInt(m[1], 16) : null;
+    }
+
+    // Цвета, которые уже задала сама тема (theme.css), повторно не затемняем
+    const THEME_VARS = [
+      '--tj-bg', '--tj-surface', '--tj-raised', '--tj-raised-2', '--tj-border',
+      '--tj-accent', '--tj-accent-strong', '--tj-danger', '--tj-danger-line', '--tj-danger-soft',
+      '--tj-danger-fill', '--tj-danger-fill-2', '--tj-today', '--tj-today-border',
+      '--tj-success', '--tj-warning', '--tj-violet', '--tj-link',
+      '--tj-fill-cyan', '--tj-fill-teal', '--tj-fill-mint', '--tj-fill-amber', '--tj-fill-slate', '--tj-fill-gray',
+      '--tj-mark-hw', '--tj-mark-lab', '--tj-mark-class', '--tj-mark-control', '--tj-mark-practice', '--tj-mark-final',
+    ];
+    let themeCache = { key: null, set: null };
+    function isThemeColor({ r, g, b }) {
+      const key = root.getAttribute('data-tj-palette');
+      if (themeCache.key !== key) {
+        const cs = getComputedStyle(root);
+        const set = new Set();
+        for (const v of THEME_VARS) {
+          const n = hexInt(cs.getPropertyValue(v));
+          if (n != null) set.add(n);
+        }
+        themeCache = { key, set };
+      }
+      return themeCache.set.has((r << 16) | (g << 8) | b);
+    }
+
+    function isRed(h) {
+      return h >= 335 || h <= 12;
+    }
+
+    // Яркая заливка -> приглушённая: красные оттенки становятся бордовыми, остальные просто темнее
+    function dimFill({ h, s, l }, alpha) {
+      const red = isRed(h);
+      const sat = Math.min(s, red ? 0.66 : 0.8);
+      const light = red ? Math.min(l * 0.66, 0.32) : Math.min(l * 0.78, 0.44);
+      const a = alpha < 1 ? ` / ${alpha}` : ''; // полупрозрачные накладки остаются полупрозрачными
+      return `hsl(${h} ${Math.round(sat * 100)}% ${Math.round(light * 100)}%${a})`;
     }
 
     function isPageRoot(el) {
@@ -293,10 +346,12 @@
         (document.head || root).appendChild(style);
         dynSheet = style.sheet;
       }
-      const prop = kind === 'bg' ? 'background-color' : 'color';
-      const attr = kind === 'bg' ? 'data-tj-bg' : 'data-tj-fg';
+      const prop = kind === 'bg' ? 'background-color' : kind === 'bd' ? 'border-color' : 'color';
+      const attr = kind === 'bg' ? 'data-tj-bg' : kind === 'bd' ? 'data-tj-bd' : 'data-tj-fg';
+      // у рамок селектор удвоен, чтобы перебить общее правило [data-tj-bd] из theme.css
+      const sel = kind === 'bd' ? `[${attr}="${t}"][${attr}]` : `[${attr}="${t}"]`;
       try {
-        dynSheet.insertRule(`html.tj-smart:not(.tj-off) [${attr}="${t}"]{${prop}:${color} !important}`, dynSheet.cssRules.length);
+        dynSheet.insertRule(`html.tj-smart:not(.tj-off) ${sel}{${prop}:${color} !important}`, dynSheet.cssRules.length);
       } catch (_) {}
       return t;
     }

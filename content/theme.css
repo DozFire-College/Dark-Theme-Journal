@@ -13,14 +13,35 @@ html {
   --tj-text: #e6eaf0;
   --tj-text-2: #c4cbd6;
   --tj-muted: #8d98a9;
-  --tj-accent: #3fc1d4;
-  --tj-accent-strong: #1b8ea3;
+  --tj-accent: #36a9ba;
+  --tj-accent-strong: #17788a;
   --tj-accent-ink: #0d1a1e;
-  --tj-danger: #ff5f7e;
-  --tj-success: #3ad8c9;
-  --tj-warning: #f3d27c;
-  --tj-violet: #b5a3ff;
-  --tj-link: #6fd0e0;
+  --tj-danger: #dc5570;          /* красный текст */
+  --tj-danger-line: #c2415c;     /* красные линии графиков */
+  --tj-danger-soft: #b97a85;     /* бывший розовый */
+  --tj-danger-fill: #8a1f35;     /* красные плашки, значки, кнопки */
+  --tj-danger-fill-2: #9c2740;   /* они же при наведении */
+  --tj-today: #7a1b30;           /* сегодняшний день в расписании */
+  --tj-today-border: #b0405a;
+  --tj-success: #33bdb0;
+  --tj-warning: #d9bb6b;
+  --tj-violet: #a593ee;
+  --tj-link: #62bccb;
+  /* приглушённые заливки вместо ярких цветов сайта */
+  --tj-fill-cyan: #13859b;       /* было #19c3e0 */
+  --tj-fill-teal: #14616f;       /* было #188194 */
+  --tj-fill-mint: #456b66;       /* было #9ac9c0 */
+  --tj-fill-amber: #7d651f;      /* было #f5d47d */
+  --tj-fill-slate: #3f5068;      /* было #586e8b */
+  --tj-fill-gray: #55607a;       /* было #a3aec8 */
+  --tj-on-fill: #f1f4f7;         /* текст на цветных заливках */
+  /* оценки по типам работ */
+  --tj-mark-hw: #8a1f35;         /* домашние — было #d91842 */
+  --tj-mark-lab: #6a58a0;        /* лабораторные — было #ac9ad6 */
+  --tj-mark-class: #177283;      /* классная работа — было #188194 */
+  --tj-mark-control: #3c8a50;    /* контрольные — было #a9f6b4 */
+  --tj-mark-practice: #b06a14;   /* практические — было orange */
+  --tj-mark-final: #6b7483;      /* итоговые — было #c3c3c3 */
   --tj-shadow: 0 6px 18px rgba(0, 0, 0, .35);
 }
 
@@ -33,10 +54,13 @@ html[data-tj-palette="midnight"] {
   --tj-text: #e3e9f4;
   --tj-text-2: #bfcade;
   --tj-muted: #8798b4;
-  --tj-accent: #5cb8ff;
-  --tj-accent-strong: #2a78c4;
+  --tj-accent: #4fa3e6;
+  --tj-accent-strong: #2468ab;
   --tj-accent-ink: #081220;
-  --tj-link: #86c9ff;
+  --tj-link: #76b6ea;
+  --tj-fill-cyan: #2470b0;
+  --tj-fill-teal: #1c4f85;
+  --tj-fill-mint: #3d5576;
 }
 
 html[data-tj-palette="amoled"] {
@@ -48,10 +72,13 @@ html[data-tj-palette="amoled"] {
   --tj-text: #e8e8e8;
   --tj-text-2: #c2c2c2;
   --tj-muted: #8c8c8c;
-  --tj-accent: #45d0c2;
-  --tj-accent-strong: #1f9488;
+  --tj-accent: #3bb8ab;
+  --tj-accent-strong: #1a7f75;
   --tj-accent-ink: #001412;
-  --tj-link: #74ddd2;
+  --tj-link: #66c7bd;
+  --tj-fill-cyan: #15857a;
+  --tj-fill-teal: #125f58;
+  --tj-fill-mint: #3a4f4c;
   --tj-shadow: 0 0 0 1px #1f2226;
 }
 
@@ -253,7 +280,9 @@ html:not(.tj-off) svg .axis .domain { stroke: var(--tj-border) !important; }
 html:not(.tj-off) .svg-wrap-progress svg .line,
 html:not(.tj-off) .svg-wrap-progress svg .focus circle { stroke: var(--tj-accent) !important; }
 html:not(.tj-off) .svg-wrap-attendance svg .line,
-html:not(.tj-off) .svg-wrap-attendance svg .focus circle { stroke: var(--tj-danger) !important; }
+html:not(.tj-off) .svg-wrap-attendance svg .focus circle,
+html:not(.tj-off) .svg-wrap-progres svg .red-line { stroke: var(--tj-danger-line) !important; }
+html:not(.tj-off) .svg-wrap-progres svg .pink-line { stroke: var(--tj-danger-soft) !important; }
 html:not(.tj-off) .svg-wrap-attendance svg .focus circle,
 html:not(.tj-off) .svg-wrap-progress svg .focus circle { fill: var(--tj-surface) !important; }
 
@@ -386,6 +415,182 @@ html:not(.tj-off) .app-tags-input-item.active { background: var(--tj-raised-2) !
 @media screen and (max-device-width: 825px) {
   html:not(.tj-off) .justify-content-between { background: var(--tj-surface) !important; }
 }
+
+/* =====================================================================
+   Расписание
+   ===================================================================== */
+html:not(.tj-off) .schedule-section .item .content-schedule,
+html:not(.tj-off) .schedule-section .item .content-events {
+  background-color: var(--tj-surface) !important;
+  color: var(--tj-text-2) !important;
+  border: 1px solid var(--tj-border);
+  box-shadow: var(--tj-shadow) !important;
+}
+html:not(.tj-off) .schedule-section .item .day-holder { background-color: transparent !important; }
+
+/* шапка с днями недели, кнопки и счётчики пар */
+html:not(.tj-off) .schedule-section .item .week .day,
+html:not(.tj-off) .current-date__button,
+html:not(.tj-off) .weekly-schedule__count,
+html:not(.tj-off) .weekly-schedule__mobile-date,
+html:not(.tj-off) .mobile-weekly-schedule__date,
+html:not(.tj-off) .mobile-weekly-schedule__number-lesson,
+html:not(.tj-off) .choice-by-time-frame__button:hover,
+html:not(.tj-off) .choice-by-time-frame__button--active {
+  background-color: var(--tj-fill-teal) !important;
+  color: var(--tj-on-fill) !important;
+}
+html:not(.tj-off) .choice-by-time-frame__button {
+  border-color: var(--tj-border) !important;
+  color: var(--tj-text-2);
+}
+html:not(.tj-off) .current-date__date { border-color: var(--tj-fill-mint) !important; color: var(--tj-text) !important; }
+
+/* ячейки месяца */
+html:not(.tj-off) .schedule-section .item .day-holder .day:not(.has-day--of-week) {
+  border-color: var(--tj-surface) !important;
+}
+html:not(.tj-off) .schedule-section .item .day-holder .not-days {
+  background-color: var(--tj-raised) !important;
+  color: var(--tj-muted) !important;
+}
+/* день без пар */
+html:not(.tj-off) .schedule-section .item .day-holder .has-day:not(.has-day--of-week) {
+  background-color: var(--tj-fill-mint) !important;
+  color: var(--tj-on-fill) !important;
+}
+/* день с парами */
+html:not(.tj-off) .schedule-section .item .day-holder .day .active-day {
+  background-color: var(--tj-fill-cyan) !important;
+  color: var(--tj-on-fill) !important;
+}
+/* сегодня — бордовый, с парами или без */
+html:not(.tj-off) .schedule-section .item .day-holder .day.has-day.is-today,
+html:not(.tj-off) .schedule-section .item .day-holder .day.has-day.is-today .active-day {
+  background-color: var(--tj-today) !important;
+  color: #fff !important;
+}
+html:not(.tj-off) .schedule-section .item .day-holder .day.has-day.is-today {
+  border-color: var(--tj-today-border) !important;
+}
+
+/* неделя / день: карточки пар */
+html:not(.tj-off) .schedule-section .item .day-holder .has-day--of-week,
+html:not(.tj-off) .mobile-weekly-schedule__lesson {
+  background-color: var(--tj-raised) !important;
+  border-color: var(--tj-border) !important;
+  color: var(--tj-text-2) !important;
+}
+
+/* выпадающий календарь */
+html:not(.tj-off) .bs-datepicker-head,
+html:not(.tj-off) .bs-datepicker-body table td span.selected {
+  background-color: var(--tj-fill-teal) !important;
+}
+html:not(.tj-off) .bs-datepicker-body table td.week span { color: var(--tj-accent) !important; }
+
+/* =====================================================================
+   Домашние задания
+   ===================================================================== */
+/* просрочено */
+html:not(.tj-off) .homeworks-section .items-homework .item-container .item.status0 .item-footer,
+html:not(.tj-off) .homeworks-section .items-homework .item-container .item.status0 .count-expired {
+  background-color: var(--tj-danger-fill) !important;
+  color: var(--tj-on-fill) !important;
+}
+/* проверено */
+html:not(.tj-off) .homeworks-section .items-homework .item-container .item.status1 .item-footer,
+html:not(.tj-off) .homeworks-section .items-homework .item-container .item.status1 .count-checked {
+  background-color: var(--tj-fill-teal) !important;
+  color: var(--tj-on-fill) !important;
+}
+/* на проверке / текущие / удалённые */
+html:not(.tj-off) .homeworks-section .items-homework .item-container .item.status2 .item-footer { background-color: var(--tj-fill-amber) !important; color: var(--tj-on-fill) !important; }
+html:not(.tj-off) .homeworks-section .items-homework .item-container .item.status3 .item-footer { background-color: var(--tj-fill-slate) !important; color: var(--tj-on-fill) !important; }
+html:not(.tj-off) .homeworks-section .items-homework .item-container .item.status5 .item-footer { background-color: var(--tj-fill-gray) !important; color: var(--tj-on-fill) !important; }
+
+/* кнопка «Нужна помощь с домашним заданием?» */
+html:not(.tj-off) .homework-help,
+html:not(.tj-off) .homework-help * { color: var(--tj-on-fill) !important; }
+html:not(.tj-off) .homework-help { background-color: var(--tj-danger-fill) !important; }
+html:not(.tj-off) .homework-help:hover { background-color: var(--tj-danger-fill-2) !important; }
+
+html:not(.tj-off) .homeworks-section .is-groups-issuance {
+  border-color: var(--tj-danger) !important;
+  color: var(--tj-danger) !important;
+}
+
+/* =====================================================================
+   Оценки: у каждого типа работ свой цвет
+   ===================================================================== */
+/* значки оценок в ячейках и условные обозначения над таблицей */
+html:not(.tj-off) .progress-section .item .main-block .block-day .all-less .lessons .rating span,
+html:not(.tj-off) .progress-section .lessons-by-subjects .rating span { color: #fff !important; }
+
+html:not(.tj-off) .progress-section .item .main-block .block-day .all-less .lessons .rating span,
+html:not(.tj-off) .progress-section .lessons-by-subjects .rating .rating__homework,
+html:not(.tj-off) .progress-section .item .content-progress .description .circle .dz::before { background-color: var(--tj-mark-hw) !important; }
+
+html:not(.tj-off) .progress-section .item .main-block .block-day .all-less .lessons .rating span.lz,
+html:not(.tj-off) .progress-section .lessons-by-subjects .rating .rating__lab-work,
+html:not(.tj-off) .progress-section .item .content-progress .description .circle .lz::before { background-color: var(--tj-mark-lab) !important; }
+
+html:not(.tj-off) .progress-section .item .main-block .block-day .all-less .lessons .rating span.klz,
+html:not(.tj-off) .progress-section .lessons-by-subjects .rating .rating__class-work,
+html:not(.tj-off) .progress-section .item .content-progress .description .circle .klz::before { background-color: var(--tj-mark-class) !important; }
+
+html:not(.tj-off) .progress-section .item .main-block .block-day .all-less .lessons .rating span.kr,
+html:not(.tj-off) .progress-section .lessons-by-subjects .rating .rating__control-work,
+html:not(.tj-off) .progress-section .item .content-progress .description .circle .kr::before { background-color: var(--tj-mark-control) !important; }
+
+html:not(.tj-off) .progress-section .item .main-block .block-day .all-less .lessons .rating span.practical-work,
+html:not(.tj-off) .progress-section .lessons-by-subjects .rating .rating__practical-work,
+html:not(.tj-off) .progress-section .item .content-progress .description .circle .practical-work::before { background-color: var(--tj-mark-practice) !important; }
+
+html:not(.tj-off) .progress-section .item .main-block .block-day .all-less .lessons .rating span.final-work,
+html:not(.tj-off) .progress-section .lessons-by-subjects .rating .rating__final-work,
+html:not(.tj-off) .progress-section .item .content-progress .description .circle .final-work::before { background-color: var(--tj-mark-final) !important; }
+
+/* =====================================================================
+   Ярко-красные элементы на остальных страницах
+   ===================================================================== */
+html:not(.tj-off) .sidebar-parent-block .sidebar ul.sidebar-nav li a .badge-counter,
+html:not(.tj-off) .header .basket .quantity,
+html:not(.tj-off) .button.red,
+html:not(.tj-off) .section-tests .test-block-index .proxy .count-checked.expired,
+html:not(.tj-off) .section-tests .test-block-index .test-block-footer.expired,
+html:not(.tj-off) .section-tests .test-block-index .access-days-info.expired,
+html:not(.tj-off) .test-block .footer-question .list ul .not-answered,
+html:not(.tj-off) .test-block-all .footer-question .list ul .not-answered,
+html:not(.tj-off) .progress-section .progress-info-common .red-line hr,
+html:not(.tj-off) .progress-section .voucher-not-paid,
+html:not(.tj-off) .history-section .status .tag-danger,
+html:not(.tj-off) .modal-referals .close-modal,
+html:not(.tj-off) .contacts-section .training-name-address::before,
+html:not(.tj-off) .learning-contacts-block::before,
+html:not(.tj-off) .news-section .news-container .logo hr,
+html:not(.tj-off) .popup-test .block-popup hr,
+html:not(.tj-off) .profile-vacancies .container-vacancies .logo hr,
+html:not(.tj-off) .vacancy-description hr,
+html:not(.tj-off) .description-of-awards .description-head hr,
+html:not(.tj-off) .btn-danger,
+html:not(.tj-off) .badge-danger,
+html:not(.tj-off) .bg-danger {
+  background-color: var(--tj-danger-fill) !important;
+}
+html:not(.tj-off) .btn-danger { border-color: var(--tj-danger-fill) !important; }
+html:not(.tj-off) .btn-danger:hover,
+html:not(.tj-off) .btn-danger:focus {
+  background-color: var(--tj-danger-fill-2) !important;
+  border-color: var(--tj-danger-fill-2) !important;
+}
+html:not(.tj-off) .progress-section .progress-info-common .pink-line hr {
+  background-color: var(--tj-danger-soft) !important;
+}
+html:not(.tj-off) .text-danger,
+html:not(.tj-off) .access-warning,
+html:not(.tj-off) .notice-row__message { color: var(--tj-danger) !important; }
+html:not(.tj-off) .access-warning { border-color: var(--tj-danger-fill-2) !important; }
 
 /* =====================================================================
    Умная подстройка: эти атрибуты расставляет content.js на светлых
